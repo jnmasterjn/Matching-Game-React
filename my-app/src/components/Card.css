@@ -1,0 +1,12 @@
+.container-hidden{
+    height: 200px;
+    width: 150px;
+    background-color: pink;
+}
+
+.container-flip{
+    height: 200px;
+    width: 150px;
+    background-color: lightblue;
+    text-align: center;
+}

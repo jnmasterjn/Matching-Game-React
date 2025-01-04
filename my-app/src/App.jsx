@@ -5,7 +5,6 @@ function App() {
 
   return (
     <>
-    <p>hi</p>
     <Container></Container>
     </>
   )
