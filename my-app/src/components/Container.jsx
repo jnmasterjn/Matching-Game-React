@@ -17,23 +17,22 @@ function Container({score, setScore}){
 
     useEffect( ()=> {
         
-        if (onCard1 != -1 && onCard2 != -1){
-            if(options[onCard1].value == options[onCard2].value){
-                alert("matched")
-            }else{
-                alert("not matched")
-            }
-            setOncard1(-1)
-            setOncard2(-1)
-            toggleOptions(onCard1)
-            toggleOptions(onCard2)
+        if (onCard2 != -1){
+            setTimeout( ()=>{
+                toggleOptions(onCard1,onCard2)
+                setOncard1(-1)
+                setOncard2(-1)
+            },1500)
         }
+    }, [onCard2])//state動, useEffect會被呼叫
 
-    }, [onCard1,onCard2])//任意一個state動, useEffect會被呼叫
-
-    let toggleOptions = (index) => {
+    let toggleOptions = (index1, index2) => {
         var newOption = JSON.parse(JSON.stringify(options)) //deep copy, 把options內的東西stringify然後parse, 傳給newOption
-        newOption[index].visibility = !newOption[index].visibility //如果本來有顯示內容->隱藏; 如果原本就隱藏->顯示內容
+        newOption[index1].visibility = !newOption[index1].visibility //如果本來有顯示內容->隱藏; 如果原本就隱藏->顯示內容
+
+        if (index2 != null){
+            newOption[index2].visibility = !newOption[index2].visibility
+        }
         setOptions(newOption)
     }
 
