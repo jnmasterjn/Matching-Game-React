@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Card from "./Card"
 import Score from "./Score"
 import Timer from "./Timer"
@@ -12,12 +12,24 @@ const OPTIONS = [
 function Container({score, setScore}){
 
     const[options, setOptions] = useState(OPTIONS)
-    const[onCard, setOncard] = useState(-1)   //currently card (user現在在跟幾張牌interact)
-                                                //-1 = no card
+    const[onCard1, setOncard1] = useState(-1)   //currently card (user現在在跟幾張牌interact) //-1 = no card
+    const[onCard2, setOncard2] = useState(-1) 
 
-        // var newOncard = JSON.parse(JSON.stringify(onCard))
-        // newOncard.push(index) //存取翻的牌的index
-        // setOncard(newOncard)
+    useEffect( ()=> {
+        
+        if (onCard1 != -1 && onCard2 != -1){
+            if(options[onCard1].value == options[onCard2].value){
+                alert("matched")
+            }else{
+                alert("not matched")
+            }
+            setOncard1(-1)
+            setOncard2(-1)
+            toggleOptions(onCard1)
+            toggleOptions(onCard2)
+        }
+
+    }, [onCard1,onCard2])//任意一個state動, useEffect會被呼叫
 
     let toggleOptions = (index) => {
         var newOption = JSON.parse(JSON.stringify(options)) //deep copy, 把options內的東西stringify然後parse, 傳給newOption
@@ -30,19 +42,11 @@ function Container({score, setScore}){
         setScore(score+1)
         toggleOptions(index)
 
-        if (onCard == -1){
-            setOncard(index); //if no card is flipped alr, set the currently flipped card's index 存到 Oncard 這個 variable裏
+        if(onCard1 == -1){
+            setOncard1(index)
         }else{
-            if(options[index].value == options[onCard].value){
-                alert("matched")
-            }else{
-                alert("not matched")
-                toggleOptions(index)
-                toggleOptions(onCard)
-            }
-            setOncard(-1)
+            setOncard2(index) //store index for card2
         }
-
     }
 
     return (
